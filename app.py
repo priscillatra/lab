@@ -2,7 +2,6 @@ from flask import Flask
 import random
 
 app = Flask(__name__)
-
 secret = random.randint(1, 100)
 
 @app.route('/guess/<int:num>')
