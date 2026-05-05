@@ -3,14 +3,14 @@ steps:
     entrypoint: 'bash'
     args: ['-c', 'pip install -r requirements.txt && pip install pytest && pytest -q']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/ship-it:$SHORT_SHA', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/labs/ship-it:$SHORT_SHA', '.']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/ship-it:$SHORT_SHA']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/labs/ship-it:$SHORT_SHA']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'gcloud'
-    args: ['run', 'deploy', 'ship-it', '--image', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/ship-it:$SHORT_SHA', '--region', '${_REGION}', '--allow-unauthenticated']
-substitutions:
-  _REGION: 'us-central1'
-  _REPO: 'labs'
+    args: ['run', 'deploy', 'ship-it',
+           '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/labs/ship-it:$SHORT_SHA',
+           '--region', 'us-central1',
+           '--allow-unauthenticated']
 options:
   logging: CLOUD_LOGGING_ONLY
